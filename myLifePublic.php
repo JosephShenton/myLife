@@ -49,14 +49,14 @@
       }
 
       $tweets_most = $tweets[0]['created_at'];
-      if (strtotime($tweets_most) <= strtotime('-1 hours') || strtotime($tweets_most) <= strtotime('-1 hour')) {
+      if (strtotime($tweets_most) <= strtotime('-1 hours') || strtotime($tweets_most) <= strtotime('-1 hour') || strtotime($tweets_most) <= strtotime('-10 minutes') || strtotime($tweets_most) <= strtotime('-10 minute') || strtotime($tweets_most) <= strtotime('-5 minutes') || strtotime($tweets_most) <= strtotime('-5 minute')) {
           // echo "Offline | Tweets";
           $tweets_offline = true;
       } else {
           // echo "Online | Tweets";
           $tweets_offline = false;
       }
-      if (strtotime($most_recent) <= strtotime('-1 hours') || strtotime($tweets_most) <= strtotime('-1 hour')) {
+      if (strtotime($most_recent) <= strtotime('-1 hours') || strtotime($most_recent) <= strtotime('-1 hour') || strtotime($most_recent) <= strtotime('-10 minutes') || strtotime($most_recent) <= strtotime('-10 minute') || strtotime($most_recent) <= strtotime('-5 minutes') || strtotime($most_recent) <= strtotime('-5 minute')) {
           // echo "Offline | DMs";
           $dms_offline = true;
       } else {
@@ -65,13 +65,13 @@
       }
 
       if ($dms_offline && $tweets_offline && $like_offline) {
-        if (date('H') >= $config['bed_time'] && !date('H') >= $config['wake_up_time']) {
+        if (date('H') >= $config['bed_time'] && date('H') > $config['wake_up_time'] - 1) {
            echo "Status: 🛌 (via myLife)\n";
            $connection->post("account/update_profile", ["location" => "Status: 🛌 (via myLife)"]);
         } elseif (date('H') >= $config['work_school_finish']) {
           echo "Status: ❌ (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: ❌ (via myLife)"]);
-        } elseif (date('H') >= $config['work_school_start'] && !date('H') >= $config['work_school_finish']) {
+        } elseif (date('H') >= $config['work_school_start'] && date('H') > $config['work_school_finish'] -1) {
           if (strtolower($config['work_or_school']) == "school") {
             echo "Status: 🏫 (via myLife)\n";
             $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
@@ -87,13 +87,13 @@
           $connection->post("account/update_profile", ["location" => "Status: ❌ (via myLife)"]);
         }
       } elseif (!$dms_offline || !$tweets_offline || !$like_offline) {
-        if (date('H') >= $config['bed_time'] && !date('H') >= $config['wake_up_time']) {
+        if (date('H') >= $config['bed_time'] && date('H') > $config['wake_up_time'] - 1) {
            echo "Status: 🛌 but 🔰 (via myLife)\n";
            $connection->post("account/update_profile", ["location" => "Status: 🛌 but 🔰 (via myLife)"]);
         } elseif (date('H') >= $config['work_school_finish']) {
           echo "Status: 🔰 (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: 🔰 (via myLife)"]);
-        } elseif (date('H') >= $config['work_school_start'] && !date('H') >= $config['work_school_finish']) {
+        } elseif (date('H') >= $config['work_school_start'] && date('H') > $config['work_school_finish'] -1) {
           if (strtolower($config['work_or_school']) == "school") {
             echo "Status: 🏫 but 🔰 (via myLife)\n";
             $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
