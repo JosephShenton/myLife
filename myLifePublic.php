@@ -4,8 +4,9 @@
   use Abraham\TwitterOAuth\TwitterOAuth;
 
   $config = [
-    "school_start" => 9, // 24 hour time
-    "school_finish" => 15, // 24 hour time
+    "work_or_school" => "school", // Possible: school or work or custom emoji
+    "work_school_start" => 9, // 24 hour time
+    "work_school_finish" => 15, // 24 hour time
     "bed_time" => 22, // 24 hour time
     "wake_up_time" => 6, // 24 hour time
     "twitter_username" => "username",
@@ -67,12 +68,20 @@
         if (date('H') >= $config['bed_time'] && !date('H') >= $config['wake_up_time']) {
            echo "Status: 🛌 (via myLife)\n";
            $connection->post("account/update_profile", ["location" => "Status: 🛌 (via myLife)"]);
-        } elseif (date('H') >= $config['school_finish']) {
+        } elseif (date('H') >= $config['work_school_finish']) {
           echo "Status: ❌ (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: ❌ (via myLife)"]);
-        } elseif (date('H') >= $config['school_start'] && !date('H') >= $config['school_finish']) {
-          echo "Status: 🏫 (via myLife)\n";
-          $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
+        } elseif (date('H') >= $config['work_school_start'] && !date('H') >= $config['work_school_finish']) {
+          if (strtolower($config['work_or_school']) == "school") {
+            echo "Status: 🏫 (via myLife)\n";
+            $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
+          } elseif (strtolower($config['work_or_school']) == "work") {
+            echo "Status: 💼 (via myLife)\n";
+            $connection->post("account/update_profile", ["location" => "Status: 💼 (via myLife)"]);
+          } else {
+            echo "Status: ".$config['work_or_school']." (via myLife)\n";
+            $connection->post("account/update_profile", ["location" => "Status: ".$config['work_or_school']." (via myLife)"]);
+          }
         } else {
           echo "Status: ❌ (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: ❌ (via myLife)"]);
@@ -81,12 +90,20 @@
         if (date('H') >= $config['bed_time'] && !date('H') >= $config['wake_up_time']) {
            echo "Status: 🛌 but 🔰 (via myLife)\n";
            $connection->post("account/update_profile", ["location" => "Status: 🛌 but 🔰 (via myLife)"]);
-        } elseif (date('H') >= $config['school_finish']) {
+        } elseif (date('H') >= $config['work_school_finish']) {
           echo "Status: 🔰 (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: 🔰 (via myLife)"]);
-        } elseif (date('H') >= $config['school_start'] && !date('H') >= $config['school_finish']) {
-          echo "Status: 🏫 but 🔰 (via myLife)\n";
-          $connection->post("account/update_profile", ["location" => "Status: 🏫 but 🔰 (via myLife)"]);
+        } elseif (date('H') >= $config['work_school_start'] && !date('H') >= $config['work_school_finish']) {
+          if (strtolower($config['work_or_school']) == "school") {
+            echo "Status: 🏫 but 🔰 (via myLife)\n";
+            $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
+          } elseif (strtolower($config['work_or_school']) == "work") {
+            echo "Status: 💼 but 🔰 (via myLife)\n";
+            $connection->post("account/update_profile", ["location" => "Status: 💼 (via myLife)"]);
+          } else {
+            echo "Status: ".$config['work_or_school']." but 🔰 (via myLife)\n";
+            $connection->post("account/update_profile", ["location" => "Status: ".$config['work_or_school']." (via myLife)"]);
+          }
         } else {
           echo "Status: 🔰 (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: 🔰 (via myLife)"]);
