@@ -4,6 +4,7 @@ This is a Twitter Bot which uses a few method to try and determine whether you a
 
 ## Installation
 
+* Create an app on apps.twitter.com then go to permissions and set it to Read, Write and Direct Messages!
 * Setup a webserver or localhost
 * Add this github repository
 * Run this command `mkfile like-REPLACE WITH YOUR USERNAME.json; chmod 777 like-REPLACE WITH YOUR USERNAME.json`
