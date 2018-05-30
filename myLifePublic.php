@@ -71,7 +71,7 @@
         } elseif (date('H') >= $config['work_school_finish']) {
           echo "Status: ❌ (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: ❌ (via myLife)"]);
-        } elseif (date('H') >= $config['work_school_start'] && date('H') > $config['work_school_finish'] -1) {
+        } elseif (date('H') >= $config['work_school_start'] && date('H') < $config['work_school_finish'] + 1) {
           if (strtolower($config['work_or_school']) == "school") {
             echo "Status: 🏫 (via myLife)\n";
             $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
@@ -93,7 +93,7 @@
         } elseif (date('H') >= $config['work_school_finish']) {
           echo "Status: 🔰 (via myLife)\n";
           $connection->post("account/update_profile", ["location" => "Status: 🔰 (via myLife)"]);
-        } elseif (date('H') >= $config['work_school_start'] && date('H') > $config['work_school_finish'] -1) {
+        } elseif (date('H') >= $config['work_school_start'] && date('H') < $config['work_school_finish'] + 1) {
           if (strtolower($config['work_or_school']) == "school") {
             echo "Status: 🏫 but 🔰 (via myLife)\n";
             $connection->post("account/update_profile", ["location" => "Status: 🏫 (via myLife)"]);
